@@ -1074,16 +1074,12 @@ def v1_chat_generate_response(
             tool_choice = request[idx].tool_choice
             tools = request[idx].tools
             model = request[idx].model
-            stream_reasoning = request[idx].stream_reasoning
-            reasoning_parser = ReasoningParser() if request[idx].model in REASONING_MODELS else None
         else:
             tool_choice = request.tool_choice
             tools = request.tools
             model = request.model
-            stream_reasoning = request.stream_reasoning
-            reasoning_parser = ReasoningParser() if request.model in REASONING_MODELS else None
 
-        if reasoning_parser is not None:
+        if request.separate_reasoning and model in REASONING_MODELS:
             try:
                 parser = ReasoningParser(model, True)
                 parse_result = parser.parse_non_stream(text)
