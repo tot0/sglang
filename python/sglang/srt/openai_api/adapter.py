@@ -1207,7 +1207,7 @@ async def v1_chat_completions(tokenizer_manager, raw_request: Request):
     all_requests = [ChatCompletionRequest(**request_json)]
     adapted_request, request = v1_chat_generate_request(all_requests, tokenizer_manager)
 
-    if raw_request.headers.get("x-ms-separate-reasoning") == "true":
+    if raw_request.headers.get("x-ms-separate-reasoning") is not None:
         request.separate_reasoning = True
 
     if adapted_request.stream:
