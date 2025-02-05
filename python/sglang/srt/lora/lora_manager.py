@@ -20,7 +20,8 @@ import re
 
 import torch
 
-from sglang.srt.lora.backend import FlashInferLoraBackend, TritonLoraBackend
+#from sglang.srt.lora.backend import FlashInferLoraBackend, TritonLoraBackend
+from sglang.srt.lora.backend import TritonLoraBackend
 from sglang.srt.lora.lora import LoRAAdapter, LoraBatchInfo, get_lora_layer
 from sglang.srt.lora.lora_config import LoRAConfig
 from sglang.srt.model_executor.forward_batch_info import ForwardBatch
