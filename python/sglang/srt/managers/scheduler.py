@@ -150,6 +150,7 @@ class Scheduler:
             else 1
         )
         self.enable_hierarchical_cache = server_args.enable_hierarchical_cache
+        self.max_queue_size = server_args.max_queue_size
 
         # Distributed rank info
         self.dp_size = server_args.dp_size
@@ -674,6 +675,13 @@ class Scheduler:
             self.server_args.allow_auto_truncate,
         )
         if error_msg:
+            self.waiting_queue.append(req)
+            return
+
+        if self.max_queue_size > 0 and len(self.waiting_queue) > self.max_queue_size:
+            req.finished_reason = FINISH_ABORT(
+                "The server queue is full", HTTPStatus.TOO_MANY_REQUESTS
+            )
             self.waiting_queue.append(req)
             return
 
