@@ -408,7 +408,8 @@ class GroupCoordinator:
 
     def _all_reduce_in_place(self, input_: torch.Tensor) -> None:
         pynccl_comm = self.pynccl_comm
-        if pynccl_comm is not None and not pynccl_comm.disabled:
+        # Force pynccl based comms if available
+        if pynccl_comm is not None:
             pynccl_comm.all_reduce(input_)
         else:
             torch.distributed.all_reduce(input_, group=self.device_group)
